@@ -5,6 +5,7 @@ const int ledPin =  13;      // the number of the LED pin
 volatile int buttonState = 0;         // variable for reading the pushbutton status
 volatile unsigned int lasttime = 0, currenttime = 0;
 unsigned int timechange = 0;
+volatile bool updated = false;
 
 void setup() {
   // initialize the LED pin as an output:
@@ -13,21 +14,24 @@ void setup() {
   pinMode(buttonPin, INPUT);
   // Attach an interrupt to the ISR vector
   attachInterrupt(0, pin_ISR, RISING);
-   Serial.begin(9600);
+  Serial.begin(9600);
 }
 
 void loop() {
-
-timechange = currenttime - lasttime;
-Serial.println(timechange);
-
-
+  if (updated) // only update if there is a new value
+  {
+    timechange = currenttime - lasttime;
+    Serial.println(timechange);
+    updated = false;
+  }
 }
 
 void pin_ISR() {
   buttonState = digitalRead(buttonPin);
   digitalWrite(ledPin, buttonState);
+  
   lasttime = currenttime;
   currenttime = millis();
   
+  updated = true;
 }
