@@ -48,7 +48,7 @@ void setup()
 
 void loop()
 {
-  if (!digitalRead(breakpin) == HIGH)
+  if (!digitalRead(breakpin))
   {
     setPosition(0);
   }
