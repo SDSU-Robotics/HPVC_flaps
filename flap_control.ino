@@ -40,8 +40,6 @@ void setup()
   
   // Attach an interrupt to the ISR vector
   attachInterrupt(digitalPinToInterrupt (2), pin_ISR, RISING);
-  
-  Serial.begin(115200);
 
   // initialize location to MIN_POS
   setPosition(MIN_POS);
@@ -72,16 +70,10 @@ void loop()
   else if (updated) // only update if there is a new value
   {
     // calculated speed
-    Serial.print("Duration: ");
-    Serial.println(duration);
     speed = 1000.0 / duration;
-    Serial.print("Speed: ");
-    Serial.println(speed);
 
     // calculate new position
     newPos = K * pow(speed, EXP) + MIN_POS;
-    Serial.print("newPos: ");
-    Serial.println(newPos);
 
     // constrain position
     if (newPos > MAX_POS)
@@ -89,7 +81,6 @@ void loop()
     else if (newPos < MIN_POS)
     {
       newPos = MIN_POS;
-      Serial.println("mincap 1");
     }
 
     // subtract the last reading:
@@ -110,20 +101,15 @@ void loop()
     // calculate the average:
     average = total / numReadings;
 
-    Serial.print("Average: ");
-    Serial.println(average);
-
     // constrain position
     if (average > MAX_POS)
       average = MAX_POS;
     else if (average < MIN_POS)
     {
       average = MIN_POS;
-      Serial.println("min cap");
     }
 
     // move flaps
-    Serial.println(average);
     setPosition(average);
 
     updated = false;
