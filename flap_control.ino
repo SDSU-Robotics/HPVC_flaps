@@ -1,6 +1,6 @@
 // CONSTANTS
 const int MIN_POS = 250;     // minimum flap position
-const int MAX_POS = 500;     // maximum flap position
+const int MAX_POS = 340;     // maximum flap position
 const double EXP = 1.6;        // exponent
 const double K = (MAX_POS - MIN_POS) / pow(2.895, EXP); // coeffecient for speed^EXP
 
@@ -61,9 +61,7 @@ void loop()
     //setPosition(0);
     if (currentPos > 0)
       stepDown();
-    //delayMicroseconds(100);
-        
-    Serial.println("breaking");
+      u8
     updated = true;
   }
   // if hall deactivated
@@ -135,20 +133,6 @@ void loop()
 void stepUp()
 {
   // set direction
-  digitalWrite(DIR, HIGH);
-
-  // pulse driver
-  digitalWrite(PUL, LOW);
-  digitalWrite(PUL, HIGH);
-  digitalWrite(PUL, LOW);
-
-  delayMicroseconds(400);
-  currentPos++;
-}
-
-void stepDown()
-{
-  // set direction
   digitalWrite(DIR, LOW);
 
   // pulse driver
@@ -156,7 +140,21 @@ void stepDown()
   digitalWrite(PUL, HIGH);
   digitalWrite(PUL, LOW);
 
-  delayMicroseconds(400);
+  delayMicroseconds(600);
+  currentPos++;
+}
+
+void stepDown()
+{
+  // set direction
+  digitalWrite(DIR, HIGH);
+
+  // pulse driver
+  digitalWrite(PUL, LOW);
+  digitalWrite(PUL, HIGH);
+  digitalWrite(PUL, LOW);
+
+  delayMicroseconds(600);
   currentPos--;
 }
 
